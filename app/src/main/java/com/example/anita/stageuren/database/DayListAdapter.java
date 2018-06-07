@@ -1,6 +1,7 @@
 package com.example.anita.stageuren.database;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,14 +30,15 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
 
     public DayListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
+    @NonNull
     @Override
-    public DayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
         return new DayViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(DayViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
         if (mDays != null) {
             Day current = mDays.get(position);
             holder.dateTextView.setText(current.getDate());

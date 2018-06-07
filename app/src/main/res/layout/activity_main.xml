@@ -6,11 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/overViewBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorAccent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/totalHoursTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/total_hours"
+            android:textColor="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/valueTotalHoursTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/totalHoursTextView"
+            android:textColor="?attr/colorPrimary"
+            tools:text="12" />
+
+        <TextView
+            android:id="@+id/hoursToGoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/valueHoursToGoTextView"
+            android:text="@string/hours_to_go"
+            android:textColor="?attr/colorPrimary"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/valueHoursToGoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorPrimary"
+            tools:text="1240" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/overViewBar"
+        android:progress="50" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/progressBar"
         tools:listitem="@layout/recyclerview_item" />
 
 
@@ -32,9 +85,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/fab_icon_default"
             android:elevation="16dp"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:text="@string/fab_icon_default"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp" />
     </FrameLayout>
 </RelativeLayout>

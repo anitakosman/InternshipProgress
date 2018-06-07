@@ -1,9 +1,11 @@
 <resources>
-    <string name="app_name">Stage Uren</string>
+    <string name="app_name">Internship Progress</string>
     <string name="fab_icon_default">Start</string>
     <string name="fab_icon_start">Start</string>
     <string name="fab_icon_stop">Stop</string>
     <string name="no_day">No Day</string>
     <string name="no_start_time">No startTime</string>
     <string name="delimiter">-</string>
+    <string name="total_hours">Total hours:</string>
+    <string name="hours_to_go">Hours to go:</string>
 </resources>

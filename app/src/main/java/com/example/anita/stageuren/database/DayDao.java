@@ -11,11 +11,14 @@ import java.util.List;
 
 @Dao
 public interface DayDao {
-    @Query("SELECT * FROM day ORDER BY startTime")
+    @Query("SELECT * FROM day ORDER BY startTime DESC")
     LiveData<List<Day>> getAll();
 
     @Query("SELECT * FROM day ORDER BY startTime DESC LIMIT 1")
     Day getLastDay();
+
+    @Query("SELECT SUM(endTime - startTime) FROM day")
+    LiveData<Long> getTotalTime();
 
     @Insert
     void insert(Day day);
