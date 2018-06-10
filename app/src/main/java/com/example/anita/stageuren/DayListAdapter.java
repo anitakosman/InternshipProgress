@@ -60,8 +60,9 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
                 }
             });
             Long endTime = current.getEndTime();
-            if(endTime!=null){
+            if(endTime!=null)
                 holder.endTimeTextView.setText(Day.getTime(endTime));
+            if(current.getDuration()!=null){
                 Long durationInMinutes = current.getDuration()/60000;
                 String format = durationInMinutes%60>=10? "%d.%d" : "%d.0%d";
                 holder.durationTextView.setText(String.format(Locale.getDefault(), format, durationInMinutes/60, durationInMinutes%60));

@@ -255,7 +255,7 @@ public class EditorActivity extends AppCompatActivity {
                 textView = activity.findViewById(R.id.edit_end_time);
                 calendar = activity.mEndTimeCalendar;
             }
-            calendar.set(Calendar.HOUR, hourOfDay);
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
             textView.setText(Day.getTime(calendar.getTimeInMillis()));
         }

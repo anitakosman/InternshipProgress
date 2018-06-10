@@ -20,6 +20,7 @@ public class Day {
     public Day(Long startTime, Long endTime){
         this.startTime = startTime;
         this.endTime = endTime;
+        setDuration();
     }
 
     private Day(long startTime)
@@ -37,8 +38,7 @@ public class Day {
     public Long getStartTime() { return startTime; }
     public void setStartTime(Long startTime) {
         this.startTime = startTime;
-        if(endTime!=null)
-            setDuration();
+        setDuration();
     }
 
     public Long getEndTime() { return endTime; }
@@ -56,6 +56,8 @@ public class Day {
     }
 
     public static Long getDuration(Long startTime, Long endTime) {
+        if(startTime==null || endTime == null)
+            return null;
         Calendar startCalendar = Calendar.getInstance(Locale.getDefault());
         startCalendar.setTimeInMillis(startTime);
         Calendar endCalendar = Calendar.getInstance(Locale.getDefault());
