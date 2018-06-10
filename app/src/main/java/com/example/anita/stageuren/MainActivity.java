@@ -3,13 +3,18 @@ package com.example.anita.stageuren;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
@@ -25,7 +30,7 @@ import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
     private final static String FAB_STATE_KEY = "fab_state";
-    private DayViewModel mDayViewModel;
+    private MainViewModel mMainViewModel;
     private FloatingActionButton fab;
     private TextView fabTv, totalHoursTv, hoursToGoTv;
     private OnClickListener startOnClickListener, stopOnClickListener;
@@ -39,12 +44,19 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getDefaultSharedPreferences(this);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final DayListAdapter adapter = new DayListAdapter(this);
+        final DayListAdapter adapter = new DayListAdapter(this,new DayListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int adapterPosition) {
+                Intent i = new Intent(MainActivity.this, EditorActivity.class);
+                i.putExtra("dayId", mMainViewModel.getAllDays().getValue().get(adapterPosition).getId());
+                startActivity(i);
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mDayViewModel = ViewModelProviders.of(this).get(DayViewModel.class);
-        mDayViewModel.getAllDays().observe(this, new Observer<List<Day>>() {
+        mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mMainViewModel.getAllDays().observe(this, new Observer<List<Day>>() {
             @Override
             public void onChanged(@Nullable final List<Day> days) {
                 adapter.setDays(days);
@@ -57,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         hoursToGoTv = findViewById(R.id.valueHoursToGoTextView);
         progressBar = findViewById(R.id.progressBar);
 
-        mDayViewModel.getTotalHours().observe(this, new Observer<Long>() {
+        mMainViewModel.getTotalHours().observe(this, new Observer<Long>() {
             @SuppressLint("DefaultLocale")
             @Override
             public void onChanged(@Nullable Long totalTime) {
@@ -72,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         startOnClickListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDayViewModel.start();
+                mMainViewModel.start();
                 fabTv.setText(R.string.fab_icon_stop);
                 fab.setOnClickListener(stopOnClickListener);
             }
@@ -81,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         stopOnClickListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
-                    mDayViewModel.stop();
+                    mMainViewModel.stop();
                     fabTv.setText(R.string.fab_icon_start);
                     fab.setOnClickListener(startOnClickListener);
             }
@@ -98,6 +110,23 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(startOnClickListener);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent i = new Intent(this, EditorActivity.class);
+                startActivity(i);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

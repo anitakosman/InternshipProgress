@@ -1,18 +1,16 @@
 package com.example.anita.stageuren;
 
 import android.app.Application;
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
+import android.arch.persistence.room.Dao;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.example.anita.stageuren.database.AppDatabase;
 import com.example.anita.stageuren.database.Day;
 import com.example.anita.stageuren.database.DayDao;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutionException;
 
 public class DayRepository {
     private DayDao mDayDao;
@@ -40,7 +38,70 @@ public class DayRepository {
 
     public LiveData<Long> getTotalHours() {return mTotalTime;}
 
-    private static class startAsyncTask extends AsyncTask<Void, Void, Void> {
+    public LiveData<Day> getDayWithId(int dayId) { return mDayDao.getDayWithId(dayId); }
+
+    public int deleteDay(Day day){
+        try {
+            return new deleteAsyncTask(mDayDao).execute(day).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void updateDay(Day day){ new updateAsyncTask(mDayDao).execute(day); }
+
+    public void insertNewDay(Day day) { new insertAsyncTask(mDayDao).execute(day); }
+
+    private static class insertAsyncTask extends AsyncTask<Day, Void, Void> {
+
+        private DayDao mAsyncTaskDao;
+
+        insertAsyncTask(DayDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Day... params) {
+            if(params[0]!=null)
+                mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Day, Void, Void> {
+
+        private DayDao mAsyncTaskDao;
+
+        updateAsyncTask(DayDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Day... params) {
+            if(params[0]!=null)
+                mAsyncTaskDao.updateDay(params[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Day, Void, Integer> {
+
+        private DayDao mAsyncTaskDao;
+
+        deleteAsyncTask(DayDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Integer doInBackground(final Day... params) {
+            if(params[0]!=null)
+                return mAsyncTaskDao.delete(params[0]);
+            return null;
+        }
+    }
+
+    private static class startAsyncTask extends android.os.AsyncTask<Void, Void, Void> {
 
         private DayDao mAsyncTaskDao;
 

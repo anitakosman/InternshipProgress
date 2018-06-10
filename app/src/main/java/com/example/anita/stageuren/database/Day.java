@@ -1,5 +1,6 @@
 package com.example.anita.stageuren.database;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -15,7 +16,7 @@ public class Day {
     private Long startTime;
     private Long endTime;
 
-    private Day(Long startTime, Long endTime){
+    public Day(Long startTime, Long endTime){
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -40,10 +41,10 @@ public class Day {
 
     public String getDate(){
         Date date = new Date(startTime);
-        return new SimpleDateFormat("EEE d MMM", Locale.UK).format(date);
+        return new SimpleDateFormat("EEE d MMM", Locale.getDefault()).format(date);
     }
     public static String getTime(long milis){
         Date date = new Date(milis);
-        return new SimpleDateFormat("H:mm", Locale.UK).format(date);
+        return new SimpleDateFormat("H:mm", Locale.getDefault()).format(date);
     }
 }

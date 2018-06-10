@@ -30,6 +30,8 @@ public interface DayDao {
     void updateDay(Day day);
 
     @Delete
-    void delete(Day day);
+    int delete(Day day);
 
+    @Query("SELECT * FROM day WHERE ID = :dayId LIMIT 1")
+    LiveData<Day> getDayWithId(int dayId);
 }

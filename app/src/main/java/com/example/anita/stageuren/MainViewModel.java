@@ -8,13 +8,14 @@ import com.example.anita.stageuren.database.Day;
 
 import java.util.List;
 
-public class DayViewModel extends AndroidViewModel {
+public class MainViewModel extends AndroidViewModel {
     private DayRepository mRepository;
     private LiveData<List<Day>> mAllDays;
     private LiveData<Long> mTotalTime;
 
-    public DayViewModel (Application application) {
+    public MainViewModel(Application application) {
         super(application);
+        System.out.println("New DayViewModel");
         mRepository = new DayRepository(application);
         mAllDays = mRepository.getAllDays();
         mTotalTime = mRepository.getTotalHours();

@@ -11,24 +11,34 @@ import android.widget.TextView;
 import com.example.anita.stageuren.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewHolder> {
 
-    class DayViewHolder extends RecyclerView.ViewHolder {
-        private final TextView dateTextView, startTimeTextView, endTimeTextView;
+    public interface OnItemClickListener {
+        void onItemClick(int adapterPosition);
+    }
 
-        private DayViewHolder(View itemView) {
+    private final OnItemClickListener mListener;
+    private final LayoutInflater mInflater;
+    private List<Day> mDays; // Cached copy of days
+
+    public DayListAdapter(Context context, OnItemClickListener listener) {
+        mInflater = LayoutInflater.from(context);
+        mListener = listener;
+    }
+
+    class DayViewHolder extends RecyclerView.ViewHolder {
+        private final TextView dateTextView, startTimeTextView, endTimeTextView, durationTextView;
+
+        private DayViewHolder(final View itemView) {
             super(itemView);
             dateTextView = itemView.findViewById(R.id.dateTextView);
             startTimeTextView = itemView.findViewById(R.id.startTimeTextView);
             endTimeTextView = itemView.findViewById(R.id.endTimeTextView);
+            durationTextView = itemView.findViewById(R.id.durationTextView);
         }
     }
-
-    private final LayoutInflater mInflater;
-    private List<Day> mDays; // Cached copy of days
-
-    public DayListAdapter(Context context) { mInflater = LayoutInflater.from(context); }
 
     @NonNull
     @Override
@@ -38,16 +48,28 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DayViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DayViewHolder holder, final int position) {
         if (mDays != null) {
-            Day current = mDays.get(position);
+            final Day current = mDays.get(position);
+            Long startTime = current.getStartTime();
             holder.dateTextView.setText(current.getDate());
-            holder.startTimeTextView.setText(Day.getTime(current.getStartTime()));
+            holder.startTimeTextView.setText(Day.getTime(startTime));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    mListener.onItemClick(position);
+                }
+            });
             Long endTime = current.getEndTime();
-            if(endTime!=null)
+            if(endTime!=null){
                 holder.endTimeTextView.setText(Day.getTime(endTime));
-            else
+                Long duration = (endTime-startTime)/60000;
+                String format = duration%60>=10? "%d.%d" : "%d.0%d";
+                holder.durationTextView.setText(String.format(Locale.getDefault(), format, duration/60, duration%60));
+            }
+            else {
                 holder.endTimeTextView.setText("");
+                holder.durationTextView.setText("");
+            }
         } else {
             // Covers the case of data not being ready yet.
             holder.dateTextView.setText(R.string.no_day);
