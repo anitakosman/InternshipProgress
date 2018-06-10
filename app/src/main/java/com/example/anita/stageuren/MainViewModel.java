@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
 import com.example.anita.stageuren.database.Day;
+import com.example.anita.stageuren.database.DayRepository;
 
 import java.util.List;
 

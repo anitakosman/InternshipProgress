@@ -1,4 +1,4 @@
-package com.example.anita.stageuren.database;
+package com.example.anita.stageuren;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.anita.stageuren.R;
+import com.example.anita.stageuren.database.Day;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,7 +23,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
     private final LayoutInflater mInflater;
     private List<Day> mDays; // Cached copy of days
 
-    public DayListAdapter(Context context, OnItemClickListener listener) {
+    DayListAdapter(Context context, OnItemClickListener listener) {
         mInflater = LayoutInflater.from(context);
         mListener = listener;
     }
@@ -48,7 +48,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DayViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final DayViewHolder holder, int position) {
         if (mDays != null) {
             final Day current = mDays.get(position);
             Long startTime = current.getStartTime();
@@ -56,15 +56,15 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
             holder.startTimeTextView.setText(Day.getTime(startTime));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View v) {
-                    mListener.onItemClick(position);
+                    mListener.onItemClick(holder.getAdapterPosition());
                 }
             });
             Long endTime = current.getEndTime();
             if(endTime!=null){
                 holder.endTimeTextView.setText(Day.getTime(endTime));
-                Long duration = (endTime-startTime)/60000;
-                String format = duration%60>=10? "%d.%d" : "%d.0%d";
-                holder.durationTextView.setText(String.format(Locale.getDefault(), format, duration/60, duration%60));
+                Long durationInMinutes = current.getDuration()/60000;
+                String format = durationInMinutes%60>=10? "%d.%d" : "%d.0%d";
+                holder.durationTextView.setText(String.format(Locale.getDefault(), format, durationInMinutes/60, durationInMinutes%60));
             }
             else {
                 holder.endTimeTextView.setText("");
@@ -72,7 +72,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
             }
         } else {
             // Covers the case of data not being ready yet.
-            holder.dateTextView.setText(R.string.no_day);
+            holder.dateTextView.setText(R.string.no_date);
             holder.startTimeTextView.setText(R.string.no_start_time);
             holder.endTimeTextView.setText("");
         }

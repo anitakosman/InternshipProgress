@@ -3,13 +3,11 @@ package com.example.anita.stageuren;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.anita.stageuren.database.Day;
-import com.example.anita.stageuren.database.DayListAdapter;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int adapterPosition) {
                 Intent i = new Intent(MainActivity.this, EditorActivity.class);
-                i.putExtra("dayId", mMainViewModel.getAllDays().getValue().get(adapterPosition).getId());
+                int dayId = mMainViewModel.getAllDays().getValue()!=null?
+                        mMainViewModel.getAllDays().getValue().get(adapterPosition).getId() : -1;
+                i.putExtra("dayId", dayId);
                 startActivity(i);
             }
         });

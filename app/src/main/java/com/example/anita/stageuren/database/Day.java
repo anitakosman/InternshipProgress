@@ -1,10 +1,10 @@
 package com.example.anita.stageuren.database;
 
-import android.annotation.SuppressLint;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -15,13 +15,14 @@ public class Day {
 
     private Long startTime;
     private Long endTime;
+    private Long duration;
 
     public Day(Long startTime, Long endTime){
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    Day(long startTime)
+    private Day(long startTime)
     {
         this(startTime, null);
     }
@@ -34,10 +35,39 @@ public class Day {
     public void setId(int id) { this.id = id; }
 
     public Long getStartTime() { return startTime; }
-    public void setStartTime(Long startTime) { this.startTime = startTime; }
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+        if(endTime!=null)
+            setDuration();
+    }
 
     public Long getEndTime() { return endTime; }
-    public void setEndTime(Long endTime) { this.endTime = endTime; }
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+        setDuration();
+    }
+
+    public Long getDuration() {
+        return duration;
+    }
+    void setDuration(Long duration){this.duration = duration;}
+    private void setDuration() {
+        duration = Day.getDuration(startTime, endTime);
+    }
+
+    public static Long getDuration(Long startTime, Long endTime) {
+        Calendar startCalendar = Calendar.getInstance(Locale.getDefault());
+        startCalendar.setTimeInMillis(startTime);
+        Calendar endCalendar = Calendar.getInstance(Locale.getDefault());
+        endCalendar.setTimeInMillis(endTime);
+        // If started before 11.30 and ended after 13.00, subtract 30 minutes of duration because of lunch break
+        if((startCalendar.get(Calendar.HOUR_OF_DAY)<11 ||
+                (startCalendar.get(Calendar.HOUR_OF_DAY)==11 && startCalendar.get(Calendar.MINUTE)<30))
+                && endCalendar.get(Calendar.HOUR_OF_DAY)>=13) {
+            return endTime - startTime - (30 * 60 *1000);
+        }
+        return endTime-startTime;
+    }
 
     public String getDate(){
         Date date = new Date(startTime);

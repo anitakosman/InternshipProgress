@@ -17,14 +17,11 @@ public interface DayDao {
     @Query("SELECT * FROM day ORDER BY startTime DESC LIMIT 1")
     Day getLastDay();
 
-    @Query("SELECT SUM(endTime - startTime) FROM day")
+    @Query("SELECT SUM(duration) FROM day")
     LiveData<Long> getTotalTime();
 
     @Insert
     void insert(Day day);
-
-    @Insert
-    void insertAll(Day... days);
 
     @Update
     void updateDay(Day day);

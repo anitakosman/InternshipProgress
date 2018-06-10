@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
 import com.example.anita.stageuren.database.Day;
+import com.example.anita.stageuren.database.DayRepository;
 
 public class EditorViewModel extends AndroidViewModel {
     private DayRepository mRepository;

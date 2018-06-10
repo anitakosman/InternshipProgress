@@ -1,13 +1,8 @@
-package com.example.anita.stageuren;
+package com.example.anita.stageuren.database;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
 import android.os.AsyncTask;
-
-import com.example.anita.stageuren.database.AppDatabase;
-import com.example.anita.stageuren.database.Day;
-import com.example.anita.stageuren.database.DayDao;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -17,14 +12,14 @@ public class DayRepository {
     private LiveData<List<Day>> mAllDays;
     private LiveData<Long> mTotalTime;
 
-    DayRepository(Application application) {
+    public DayRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         mDayDao = db.dayDao();
         mAllDays = mDayDao.getAll();
         mTotalTime = mDayDao.getTotalTime();
     }
 
-    LiveData<List<Day>> getAllDays() {
+    public LiveData<List<Day>> getAllDays() {
         return mAllDays;
     }
 
