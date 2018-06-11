@@ -25,20 +25,15 @@ import android.widget.Toast;
 
 import com.example.anita.stageuren.database.Day;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class EditorActivity extends AppCompatActivity {
     private TextView mEditDate;
     private TextView mEditStartTime;
     private TextView mEditEndTime;
-    private Calendar mStartTimeCalendar = Calendar.getInstance(Locale.getDefault()),
-            mEndTimeCalendar = Calendar.getInstance(Locale.getDefault());
 
     private EditorViewModel mEditorViewModel;
     private int mDayId;
-    private Boolean mChanged = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,15 +80,35 @@ public class EditorActivity extends AppCompatActivity {
                 @Override
                 public void onChanged(@Nullable Day day) {
                     if (day != null) {
-                        mEditDate.setText(day.getDate());
-                        mEditStartTime.setText(Day.getTime(day.getStartTime()));
-                        mEditEndTime.setText(Day.getTime(day.getEndTime()));
-                        mStartTimeCalendar.setTimeInMillis(day.getStartTime());
-                        mEndTimeCalendar.setTimeInMillis(day.getEndTime());
+                        mEditorViewModel.setCalendars(day.getStartTime(), day.getEndTime());
                     }
                 }
             });
         }
+
+        mEditorViewModel.getDate().observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(@Nullable Calendar calendar) {
+                if(calendar != null)
+                    mEditDate.setText(Day.getDate(calendar.getTimeInMillis()));
+            }
+        });
+
+        mEditorViewModel.getStartTime().observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(@Nullable Calendar calendar) {
+                if(calendar != null)
+                    mEditStartTime.setText(Day.getTime(calendar.getTimeInMillis()));
+            }
+        });
+
+        mEditorViewModel.getEndTime().observe(this, new Observer<Calendar>() {
+            @Override
+            public void onChanged(@Nullable Calendar calendar) {
+                if(calendar != null)
+                    mEditEndTime.setText(Day.getTime(calendar.getTimeInMillis()));
+            }
+        });
     }
 
     @Override
@@ -123,7 +138,7 @@ public class EditorActivity extends AppCompatActivity {
                 showDeleteConfirmationDialog();
                 return true;
             case android.R.id.home:
-                if (!mChanged) {
+                if (!mEditorViewModel.isChanged()) {
                     NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     return true;
                 }
@@ -142,20 +157,11 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private boolean save() {
-        if (mDayId != -1) {
-            Day current = mEditorViewModel.getCurDay().getValue();
-            assert current != null;
-            current.setStartTime(mStartTimeCalendar.getTimeInMillis());
-            current.setEndTime(mEndTimeCalendar.getTimeInMillis());
-            mEditorViewModel.updateCurDay();
-        } else {
-            if (mEditDate.getText().equals("Pick a date") || mEditStartTime.getText().equals("Pick a time") || mEditEndTime.getText().equals("Pick a time")) {
-                Toast.makeText(this, "All fields must be filled out", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            else
-                mEditorViewModel.insertNewDay(new Day(mStartTimeCalendar.getTimeInMillis(), mEndTimeCalendar.getTimeInMillis()));
+        if (mEditDate.getText().equals("Pick a date") || mEditStartTime.getText().equals("Pick a time") || mEditEndTime.getText().equals("Pick a time")) {
+            Toast.makeText(this, "All fields must be filled out", Toast.LENGTH_SHORT).show();
+            return false;
         }
+        mEditorViewModel.saveDay();
         return true;
     }
 
@@ -188,7 +194,7 @@ public class EditorActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!mChanged) {
+        if (!mEditorViewModel.isChanged()) {
             super.onBackPressed();
             return;
         }
@@ -245,19 +251,12 @@ public class EditorActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             EditorActivity activity = (EditorActivity) getActivity();
-            activity.mChanged = true;
-            Calendar calendar;
-            TextView textView;
+            activity.mEditorViewModel.setChanged();
             if (getTag().equals("startTimePicker")) {
-                textView = activity.findViewById(R.id.edit_start_time);
-                calendar = activity.mStartTimeCalendar;
+                activity.mEditorViewModel.setStartTime(hourOfDay, minute);
             } else {
-                textView = activity.findViewById(R.id.edit_end_time);
-                calendar = activity.mEndTimeCalendar;
+                activity.mEditorViewModel.setEndTime(hourOfDay, minute);
             }
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            calendar.set(Calendar.MINUTE, minute);
-            textView.setText(Day.getTime(calendar.getTimeInMillis()));
         }
     }
 
@@ -278,11 +277,8 @@ public class EditorActivity extends AppCompatActivity {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             EditorActivity activity = (EditorActivity) getActivity();
-            Calendar startTimeCalender = activity.mStartTimeCalendar;
-            activity.mChanged = true;
-            startTimeCalender.set(year, month, day);
-            activity.mEndTimeCalendar.set(year, month, day);
-            activity.mEditDate.setText(new SimpleDateFormat("EEE d MMM", Locale.getDefault()).format(startTimeCalender.getTime()));
+            activity.mEditorViewModel.setChanged();
+            activity.mEditorViewModel.setDate(year, month, day);
         }
     }
 }

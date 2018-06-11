@@ -72,9 +72,14 @@ public class Day {
     }
 
     public String getDate(){
-        Date date = new Date(startTime);
+        return Day.getDate(startTime);
+    }
+
+    public static String getDate(long milis){
+        Date date = new Date(milis);
         return new SimpleDateFormat("EEE d MMM", Locale.getDefault()).format(date);
     }
+
     public static String getTime(long milis){
         Date date = new Date(milis);
         return new SimpleDateFormat("H:mm", Locale.getDefault()).format(date);
