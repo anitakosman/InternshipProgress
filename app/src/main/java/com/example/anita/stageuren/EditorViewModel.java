@@ -26,6 +26,7 @@ public class EditorViewModel extends AndroidViewModel {
         mEndTime = new MutableLiveData<>();
     }
 
+    @SuppressWarnings("all") // to suppress warning boolean method always inverted
     public boolean isChanged() {
         return mChanged;
     }
@@ -116,7 +117,7 @@ public class EditorViewModel extends AndroidViewModel {
             mRepository.updateDay(day);
     }
 
-    public Day getDay() {
+    private Day getDay() {
         Day day;
         Long startTime = mergeDateAndTime(mStartTime.getValue());
         Long endTime = mergeDateAndTime(mEndTime.getValue());

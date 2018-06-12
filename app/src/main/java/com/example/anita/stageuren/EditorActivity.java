@@ -26,6 +26,8 @@ import android.widget.Toast;
 import com.example.anita.stageuren.database.Day;
 
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class EditorActivity extends AppCompatActivity {
     private TextView mEditDate;
@@ -240,7 +242,11 @@ public class EditorActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            EditorViewModel editorViewModel = ((EditorActivity) getActivity()).mEditorViewModel;
+            LiveData<Calendar> time = getTag().equals("startTimePicker") ?
+                    editorViewModel.getStartTime() : editorViewModel.getEndTime();
+            final Calendar c = time.getValue() == null ?
+                    Calendar.getInstance(Locale.getDefault()) : time.getValue();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
@@ -266,13 +272,23 @@ public class EditorActivity extends AppCompatActivity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            EditorViewModel editorViewModel = ((EditorActivity ) getActivity()).mEditorViewModel;
+            Calendar c = editorViewModel.getDate().getValue() == null ?
+                    Calendar.getInstance(Locale.getDefault()) : editorViewModel.getDate().getValue();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), R.style.AppDialogTheme, this, year, month, day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    R.style.AppDialogTheme, this, year, month, day);
+            c = Calendar.getInstance(TimeZone.getDefault());
+            long today = c.getTimeInMillis();
+            c.set(2018, Calendar.MAY, 15);
+            long startDate = c.getTimeInMillis();
+            datePickerDialog.getDatePicker().setMaxDate(today);
+            datePickerDialog.getDatePicker().setMinDate(startDate);
+            return datePickerDialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
