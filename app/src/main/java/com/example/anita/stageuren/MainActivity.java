@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String FAB_STATE_KEY = "fab_state";
+    final static String FAB_STATE_KEY = "fab_state";
     private MainViewModel mMainViewModel;
     private FloatingActionButton fab;
     private TextView fabTv, totalHoursTv, hoursToGoTv;
