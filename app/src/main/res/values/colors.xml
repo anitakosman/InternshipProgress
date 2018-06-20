@@ -3,4 +3,5 @@
     <color name="myColorAccent">#40ffff</color>
     <color name="white">#ffffff</color>
     <color name="text_shadow">#000000</color>
+    <color name="ic_launcher_background">#000000</color>
 </resources>

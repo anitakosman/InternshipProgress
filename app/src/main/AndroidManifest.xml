@@ -31,6 +31,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/start_stop_widget_info" />
         </receiver>
+
+        <service
+            android:name=".StartStopService"
+            android:exported="false" />
     </application>
 
 </manifest>

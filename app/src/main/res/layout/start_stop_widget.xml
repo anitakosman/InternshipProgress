@@ -10,7 +10,8 @@
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:layout_gravity="center"
-        android:src="@mipmap/widget_stop_round" />
+        android:src="@mipmap/widget_stop_round"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/widget_text"
