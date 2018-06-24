@@ -43,7 +43,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.DayViewH
     @NonNull
     @Override
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflater.inflate(R.layout.recyclerview_item, parent, false);
+        View itemView = mInflater.inflate(R.layout.recycler_view_item, parent, false);
         return new DayViewHolder(itemView);
     }
 

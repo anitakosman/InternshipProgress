@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -23,24 +22,19 @@ import com.example.anita.stageuren.database.Day;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-
 public class MainActivity extends AppCompatActivity {
-    final static String FAB_STATE_KEY = "fab_state";
     private MainViewModel mMainViewModel;
     private FloatingActionButton fab;
     private TextView fabTv, totalHoursTv, hoursToGoTv;
     private OnClickListener startOnClickListener, stopOnClickListener;
-    private SharedPreferences sharedPreferences;
     private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPreferences = getDefaultSharedPreferences(this);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
         final DayListAdapter adapter = new DayListAdapter(this,new DayListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int adapterPosition) {
@@ -84,8 +78,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mMainViewModel.start();
-                fabTv.setText(R.string.fab_icon_stop);
-                fab.setOnClickListener(stopOnClickListener);
             }
         };
 
@@ -93,22 +85,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                     mMainViewModel.stop();
-                    fabTv.setText(R.string.fab_icon_start);
-                    fab.setOnClickListener(startOnClickListener);
             }
         };
 
-        // Setup FAB
-        String fab_state = sharedPreferences.getString(FAB_STATE_KEY, getString(R.string.fab_icon_default));
-        fabTv.setText(fab_state);
-        if(fab_state.equals(getString(R.string.fab_icon_stop)))
-        {
-            fab.setOnClickListener(stopOnClickListener);
-        }
-        else {
-            fab.setOnClickListener(startOnClickListener);
-        }
-
+        mMainViewModel.getAppState().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String appState) {
+                if(appState != null) {
+                    if (appState.equals(getString(R.string.started_state))) {
+                        fabTv.setText(R.string.stop);
+                        fab.setOnClickListener(stopOnClickListener);
+                    } else {
+                        fabTv.setText(R.string.start);
+                        fab.setOnClickListener(startOnClickListener);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -126,11 +119,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sharedPreferences.edit().putString(FAB_STATE_KEY, (String) fabTv.getText()).apply();
     }
 }

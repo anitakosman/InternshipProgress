@@ -17,50 +17,48 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Date" />
+            android:text="@string/date" />
 
         <!-- Name field -->
         <TextView
             android:id="@+id/edit_date"
-            android:text="Pick a date"
+            android:text="@string/pick_a_date"
             style="@style/EditorFieldStyle" />
     </LinearLayout>
 
     <!-- Gender category -->
     <LinearLayout
-        android:id="@+id/container_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <!-- Label -->
         <TextView
-            android:text="Start time"
+            android:text="@string/start_time"
             style="@style/CategoryStyle" />
 
         <!-- Gender drop-down spinner -->
         <TextView
             android:id="@+id/edit_start_time"
-            android:text="Pick a time"
+            android:text="@string/pick_a_time"
             style="@style/EditorFieldStyle" />
     </LinearLayout>
 
     <!-- Measurement category -->
     <LinearLayout
-        android:id="@+id/container_measurement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <!-- Label -->
         <TextView
-            android:text="End time"
+            android:text="@string/end_time"
             style="@style/CategoryStyle" />
 
         <!-- Weight field -->
         <TextView
             android:id="@+id/edit_end_time"
-            android:text="Pick a time"
+            android:text="@string/pick_a_time"
             style="@style/EditorFieldStyle" />
     </LinearLayout>
 </LinearLayout>

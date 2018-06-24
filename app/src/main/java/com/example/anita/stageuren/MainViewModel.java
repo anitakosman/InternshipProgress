@@ -9,10 +9,11 @@ import com.example.anita.stageuren.database.DayRepository;
 
 import java.util.List;
 
-public class MainViewModel extends AndroidViewModel {
-    private DayRepository mRepository;
-    private LiveData<List<Day>> mAllDays;
-    private LiveData<Long> mTotalTime;
+class MainViewModel extends AndroidViewModel {
+    private final DayRepository mRepository;
+    private final LiveData<List<Day>> mAllDays;
+    private final LiveData<Long> mTotalTime;
+    private final LiveData<String> mAppState;
 
     public MainViewModel(Application application) {
         super(application);
@@ -20,12 +21,17 @@ public class MainViewModel extends AndroidViewModel {
         mRepository = new DayRepository(application);
         mAllDays = mRepository.getAllDays();
         mTotalTime = mRepository.getTotalHours();
-    }
+        mAppState = mRepository.getAppState();
+}
 
-    LiveData<List<Day>> getAllDays() { return mAllDays; }
+    public LiveData<List<Day>> getAllDays() { return mAllDays; }
 
     public LiveData<Long> getTotalHours() {
         return mTotalTime;
+    }
+
+    public LiveData<String> getAppState() {
+        return mAppState;
     }
 
     public void start() { mRepository.start(); }

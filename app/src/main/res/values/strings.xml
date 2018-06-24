@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Internship Progress</string>
-    <string name="app_state_default">Start</string>
+    <string name="app_state_default">Stopped</string>
+    <string name="stopped_state">Stopped</string>
+    <string name="started_state">Started</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="no_date">No Day</string>
@@ -8,6 +10,12 @@
     <string name="delimiter">-</string>
     <string name="total_hours">Total hours:</string>
     <string name="hours_to_go">Hours to go:</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="date">Date</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="start_time">Start time</string>
+    <string name="pick_a_time">Pick a time</string>
+    <string name="end_time">End time</string>
+    <string name="add">Add</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -56,7 +56,7 @@ public class EditorActivity extends AppCompatActivity {
         mEditDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(v);
+                showDatePickerDialog();
             }
         });
         mEditStartTime.setOnClickListener(new View.OnClickListener() {
@@ -225,13 +225,13 @@ public class EditorActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    public void showTimePickerDialog(View v) {
+    private void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         String tag = v.getId() == R.id.edit_start_time ? "startTimePicker" : "endTimePicker";
         newFragment.show(getFragmentManager(), tag);
     }
 
-    public void showDatePickerDialog(View v) {
+    private void showDatePickerDialog() {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }

@@ -11,10 +11,12 @@ import com.example.anita.stageuren.database.DayRepository;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class EditorViewModel extends AndroidViewModel {
-    private DayRepository mRepository;
+class EditorViewModel extends AndroidViewModel {
+    private final DayRepository mRepository;
     private LiveData<Day> mCurDay;
-    private MutableLiveData<Calendar> mDate, mStartTime, mEndTime;
+    private final MutableLiveData<Calendar> mDate;
+    private final MutableLiveData<Calendar> mStartTime;
+    private final MutableLiveData<Calendar> mEndTime;
 
     private boolean mChanged = false;
 
