@@ -50,12 +50,14 @@ public class Day {
     public Long getDuration() {
         return duration;
     }
+
     void setDuration(Long duration){this.duration = duration;}
+
     private void setDuration() {
-        duration = Day.getDuration(startTime, endTime);
+        duration = calculateDuration();
     }
 
-    public static Long getDuration(Long startTime, Long endTime) {
+    private Long calculateDuration() {
         if(startTime==null || endTime == null)
             return null;
         Calendar startCalendar = Calendar.getInstance(Locale.getDefault());
