@@ -1,4 +1,4 @@
-package com.example.anita.stageuren.database;
+package com.example.anita.internshipprogress.database;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

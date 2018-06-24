@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

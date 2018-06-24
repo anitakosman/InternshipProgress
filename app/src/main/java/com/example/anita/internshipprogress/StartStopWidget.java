@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
-import static com.example.anita.stageuren.database.DayRepository.APP_STATE_KEY;
+import com.example.anita.internshipprogress.database.DayRepository;
 
 /**
  * Implementation of App Widget functionality.
@@ -22,7 +22,7 @@ public class StartStopWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, StartStopService.class);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String app_state = sharedPreferences.getString(APP_STATE_KEY, context.getString(R.string.app_state_default));
+        String app_state = sharedPreferences.getString(DayRepository.APP_STATE_KEY, context.getString(R.string.app_state_default));
         if(app_state.equals(context.getString(R.string.stopped_state)))
         {
             intent.setAction(StartStopService.ACTION_START);

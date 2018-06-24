@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
@@ -17,7 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.anita.stageuren.database.Day;
+import com.example.anita.internshipprogress.database.Day;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

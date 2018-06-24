@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.anita.stageuren.database.Day;
+import com.example.anita.internshipprogress.database.Day;
 
 import java.util.Calendar;
 import java.util.Locale;

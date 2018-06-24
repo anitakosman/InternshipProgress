@@ -1,4 +1,4 @@
-package com.example.anita.stageuren.database;
+package com.example.anita.internshipprogress.database;
 
 import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.LiveData;
@@ -10,8 +10,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
-import com.example.anita.stageuren.R;
-import com.example.anita.stageuren.StartStopWidget;
+import com.example.anita.internshipprogress.R;
+import com.example.anita.internshipprogress.StartStopWidget;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

@@ -1,12 +1,12 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.example.anita.stageuren.database.Day;
-import com.example.anita.stageuren.database.DayRepository;
+import com.example.anita.internshipprogress.database.Day;
+import com.example.anita.internshipprogress.database.DayRepository;
 
 import java.util.Calendar;
 import java.util.Locale;

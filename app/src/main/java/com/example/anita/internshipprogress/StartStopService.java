@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.example.anita.stageuren.database.AppDatabase;
-import com.example.anita.stageuren.database.Day;
-import com.example.anita.stageuren.database.DayDao;
-import com.example.anita.stageuren.database.DayRepository;
+import com.example.anita.internshipprogress.database.AppDatabase;
+import com.example.anita.internshipprogress.database.Day;
+import com.example.anita.internshipprogress.database.DayRepository;
+import com.example.anita.internshipprogress.database.DayDao;
 
 public class StartStopService extends IntentService {
     public static final String ACTION_STOP = "com.example.anita.stageuren.action.STOP";

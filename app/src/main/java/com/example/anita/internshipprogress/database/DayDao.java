@@ -1,4 +1,4 @@
-package com.example.anita.stageuren.database;
+package com.example.anita.internshipprogress.database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

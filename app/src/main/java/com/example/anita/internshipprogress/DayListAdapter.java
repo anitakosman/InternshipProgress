@@ -1,4 +1,4 @@
-package com.example.anita.stageuren;
+package com.example.anita.internshipprogress;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.anita.stageuren.database.Day;
+import com.example.anita.internshipprogress.database.Day;
 
 import java.util.List;
 import java.util.Locale;
