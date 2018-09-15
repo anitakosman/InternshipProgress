@@ -27,26 +27,36 @@
             android:id="@+id/valueTotalHoursTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/totalHoursTextView"
+            android:layout_toEndOf="@id/totalHoursTextView"
             android:textColor="@color/myBackgroundColor"
             tools:text="12" />
 
         <TextView
+            android:id="@+id/daysToGoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/valueHoursToGoTextView"
-            android:text="@string/hours_to_go"
+            android:layout_toStartOf="@id/valueDaysToGoTextView"
+            android:text="@string/days_to_go"
             android:textColor="@color/myBackgroundColor"
             tools:ignore="RelativeOverlap" />
 
         <TextView
-            android:id="@+id/valueHoursToGoTextView"
+            android:id="@+id/valueDaysToGoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/relativeHoursToGoTodayTextView"
+            android:textColor="@color/myBackgroundColor"
+            tools:text="83" />
+
+        <TextView
+            android:id="@+id/relativeHoursToGoTodayTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="8dp"
             android:textColor="@color/myBackgroundColor"
-            tools:text="1240" />
+            tools:text="+0:15"/>
 
     </RelativeLayout>
 

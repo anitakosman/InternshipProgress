@@ -9,7 +9,7 @@
     <string name="no_start_time">No startTime</string>
     <string name="delimiter">-</string>
     <string name="total_hours">Total hours:</string>
-    <string name="hours_to_go">Hours to go:</string>
+    <string name="days_to_go">Days to go:</string>
     <string name="date">Date</string>
     <string name="pick_a_date">Pick a date</string>
     <string name="start_time">Start time</string>

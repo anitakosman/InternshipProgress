@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
+    public static final long MILLISECONDS_PER_HOUR = 60L * 60L * 1000L;
     private MainViewModel mMainViewModel;
     private FloatingActionButton fab;
-    private TextView fabTv, totalHoursTv, hoursToGoTv;
+    private TextView fabTv, totalHoursTv, daysToGoTv, relativeHoursToGoTodayTv;
     private OnClickListener startOnClickListener, stopOnClickListener;
     private ProgressBar progressBar;
 
@@ -59,16 +60,32 @@ public class MainActivity extends AppCompatActivity {
         fab = findViewById(R.id.fab);
         fabTv = findViewById(R.id.fab_text);
         totalHoursTv = findViewById(R.id.valueTotalHoursTextView);
-        hoursToGoTv = findViewById(R.id.valueHoursToGoTextView);
+        relativeHoursToGoTodayTv = findViewById(R.id.relativeHoursToGoTodayTextView);
+        daysToGoTv = findViewById(R.id.valueDaysToGoTextView);
         progressBar = findViewById(R.id.progressBar);
 
         mMainViewModel.getTotalHours().observe(this, new Observer<Long>() {
             @SuppressLint("DefaultLocale")
             @Override
             public void onChanged(@Nullable Long totalTime) {
-                long totalHours = TimeUnit.MILLISECONDS.toHours(totalTime != null ? totalTime : 0);
+                long time = totalTime != null ? totalTime : 0L;
+                long totalHours = TimeUnit.MILLISECONDS.toHours(time);
+                long remainingTime = 1120L * MILLISECONDS_PER_HOUR - time;
+                long remainingDays = remainingTime / (8L * MILLISECONDS_PER_HOUR);
+                long relativeTime = remainingTime % (8L * MILLISECONDS_PER_HOUR);
+                String sign = "+";
+                long relativeHours = TimeUnit.MILLISECONDS.toHours(relativeTime);
+                long relativeMinutes = TimeUnit.MILLISECONDS.toMinutes(relativeTime - (relativeHours * MILLISECONDS_PER_HOUR));
+                if(relativeHours > 4 || (relativeHours == 4 && relativeMinutes >0)){
+                    sign = "-";
+                    remainingDays++;
+                    relativeHours = 7 - relativeHours;
+                    relativeMinutes = 60 - relativeMinutes;
+                }
+
                 totalHoursTv.setText(String.format("%d", totalHours));
-                hoursToGoTv.setText(String.format("%d", 1120 - totalHours));
+                daysToGoTv.setText(String.format("%d", remainingDays));
+                relativeHoursToGoTodayTv.setText(String.format("%s%d:%d", sign, relativeHours, relativeMinutes));
                 progressBar.setProgress((int) (totalHours*100/1120));
             }
         });
